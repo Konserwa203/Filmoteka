@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FilmyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Filmy">
+    <Key>
+      <PropertyRef Name="IdFilmu" />
+    </Key>
+    <Property Name="IdFilmu" Type="Int32" Nullable="false" />
+    <Property Name="Tytuł" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="InnyTytuł" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="RokWydania" Type="Int32" />
+    <Property Name="CzasTrwania" Type="Int32" />
+    <Property Name="Ograniczenia" Type="Int32" />
+    <Property Name="Kolor" Type="Boolean" />
+    <Property Name="PozycjaNaRegale" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="OcenaIMDB" Type="Double" />
+    <Property Name="Obejrzany" Type="Boolean" />
+    <Property Name="Plakat" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Wytwórnia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Napisy" Type="Boolean" />
+    <Property Name="Cena" Type="Double" />
+    <Property Name="OficjalnyZwiastun" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Fabuła" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IdUzytkownika" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Filmy_Uzytkownik" FromRole="Filmy" ToRole="Uzytkownik" />
+    <NavigationProperty Name="FilmyDoKompozytorzy" Relationship="Self.FK_FilmyDoKompozytorzy_Filmy" FromRole="Filmy" ToRole="FilmyDoKompozytorzy" />
+    <NavigationProperty Name="FilmyDoRezyserzy" Relationship="Self.FK_FilmyDoRezyserzy_Filmy" FromRole="Filmy" ToRole="FilmyDoRezyserzy" />
+    <NavigationProperty Name="Nagrody" Relationship="Self.FK_Nagrody_Filmy" FromRole="Filmy" ToRole="Nagrody" />
+    <NavigationProperty Name="Gatunki" Relationship="Self.FilmyDoGatunki" FromRole="Filmy" ToRole="Gatunki" />
+    <NavigationProperty Name="Obsada" Relationship="Self.FilmyDoObsada" FromRole="Filmy" ToRole="Obsada" />
+    <Property Name="LinkDoObrazka" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="FilmyDoKompozytorzy">
+    <Key>
+      <PropertyRef Name="IdFilmu" />
+      <PropertyRef Name="IdKompozytora" />
+    </Key>
+    <Property Name="IdFilmu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdKompozytora" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Filmy" Relationship="Self.FK_FilmyDoKompozytorzy_Filmy" FromRole="FilmyDoKompozytorzy" ToRole="Filmy" />
+    <NavigationProperty Name="Kompozytorzy" Relationship="Self.FK_FilmyDoKompozytorzy_Kompozytorzy" FromRole="FilmyDoKompozytorzy" ToRole="Kompozytorzy" />
+  </EntityType>
+  <EntityType Name="FilmyDoRezyserzy">
+    <Key>
+      <PropertyRef Name="IdFilmu" />
+      <PropertyRef Name="IdRezysera" />
+    </Key>
+    <Property Name="IdFilmu" Type="Int32" Nullable="false" />
+    <Property Name="IdRezysera" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Filmy" Relationship="Self.FK_FilmyDoRezyserzy_Filmy" FromRole="FilmyDoRezyserzy" ToRole="Filmy" />
+    <NavigationProperty Name="Rezyserzy" Relationship="Self.FK_FilmyDoRezyserzy_Rezyserzy" FromRole="FilmyDoRezyserzy" ToRole="Rezyserzy" />
+  </EntityType>
+  <EntityType Name="Gatunki">
+    <Key>
+      <PropertyRef Name="IdGatunku" />
+    </Key>
+    <Property Name="IdGatunku" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Gatunek" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Filmy" Relationship="Self.FilmyDoGatunki" FromRole="Gatunki" ToRole="Filmy" />
+  </EntityType>
+  <EntityType Name="Kompozytorzy">
+    <Key>
+      <PropertyRef Name="IdKompozytora" />
+    </Key>
+    <Property Name="IdKompozytora" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Imię" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Nazwisko" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DataUrodzenia" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="FilmyDoKompozytorzy" Relationship="Self.FK_FilmyDoKompozytorzy_Kompozytorzy" FromRole="Kompozytorzy" ToRole="FilmyDoKompozytorzy" />
+  </EntityType>
+  <EntityType Name="Nagrody">
+    <Key>
+      <PropertyRef Name="IdNagrody" />
+    </Key>
+    <Property Name="IdNagrody" Type="Int32" Nullable="false" />
+    <Property Name="IdFilmu" Type="Int32" Nullable="false" />
+    <Property Name="NazwaNagrody" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Kategoria" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="RokOtrzymania" Type="Int32" />
+    <NavigationProperty Name="Filmy" Relationship="Self.FK_Nagrody_Filmy" FromRole="Nagrody" ToRole="Filmy" />
+  </EntityType>
+  <EntityType Name="Obsada">
+    <Key>
+      <PropertyRef Name="IdAktora" />
+    </Key>
+    <Property Name="IdAktora" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdFilmu" Type="Int32" Nullable="false" />
+    <Property Name="Imię" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Nazwisko" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PostaćFilmowa" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RokUrodzenia" Type="Int32" />
+    <NavigationProperty Name="Filmy" Relationship="Self.FilmyDoObsada" FromRole="Obsada" ToRole="Filmy" />
+  </EntityType>
+  <EntityType Name="Rezyserzy">
+    <Key>
+      <PropertyRef Name="IdRezysera" />
+    </Key>
+    <Property Name="IdRezysera" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Imię" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Nazwisko" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DataUrodzenia" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="FilmyDoRezyserzy" Relationship="Self.FK_FilmyDoRezyserzy_Rezyserzy" FromRole="Rezyserzy" ToRole="FilmyDoRezyserzy" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Uzytkownik">
+    <Key>
+      <PropertyRef Name="IdUzytkownika" />
+    </Key>
+    <Property Name="IdUzytkownika" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nickname" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+    <Property Name="Login" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+    <Property Name="Haslo" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Filmy" Relationship="Self.FK_Filmy_Uzytkownik" FromRole="Uzytkownik" ToRole="Filmy" />
+  </EntityType>
+  <Association Name="FK_Filmy_Uzytkownik">
+    <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+    <End Role="Filmy" Type="Self.Filmy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Uzytkownik">
+        <PropertyRef Name="IdUzytkownika" />
+      </Principal>
+      <Dependent Role="Filmy">
+        <PropertyRef Name="IdUzytkownika" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FilmyDoKompozytorzy_Filmy">
+    <End Role="Filmy" Type="Self.Filmy" Multiplicity="1" />
+    <End Role="FilmyDoKompozytorzy" Type="Self.FilmyDoKompozytorzy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Filmy">
+        <PropertyRef Name="IdFilmu" />
+      </Principal>
+      <Dependent Role="FilmyDoKompozytorzy">
+        <PropertyRef Name="IdFilmu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FilmyDoRezyserzy_Filmy">
+    <End Role="Filmy" Type="Self.Filmy" Multiplicity="1" />
+    <End Role="FilmyDoRezyserzy" Type="Self.FilmyDoRezyserzy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Filmy">
+        <PropertyRef Name="IdFilmu" />
+      </Principal>
+      <Dependent Role="FilmyDoRezyserzy">
+        <PropertyRef Name="IdFilmu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Nagrody_Filmy">
+    <End Role="Filmy" Type="Self.Filmy" Multiplicity="1" />
+    <End Role="Nagrody" Type="Self.Nagrody" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Filmy">
+        <PropertyRef Name="IdFilmu" />
+      </Principal>
+      <Dependent Role="Nagrody">
+        <PropertyRef Name="IdFilmu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FilmyDoKompozytorzy_Kompozytorzy">
+    <End Role="Kompozytorzy" Type="Self.Kompozytorzy" Multiplicity="1" />
+    <End Role="FilmyDoKompozytorzy" Type="Self.FilmyDoKompozytorzy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kompozytorzy">
+        <PropertyRef Name="IdKompozytora" />
+      </Principal>
+      <Dependent Role="FilmyDoKompozytorzy">
+        <PropertyRef Name="IdFilmu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FilmyDoRezyserzy_Rezyserzy">
+    <End Role="Rezyserzy" Type="Self.Rezyserzy" Multiplicity="1" />
+    <End Role="FilmyDoRezyserzy" Type="Self.FilmyDoRezyserzy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rezyserzy">
+        <PropertyRef Name="IdRezysera" />
+      </Principal>
+      <Dependent Role="FilmyDoRezyserzy">
+        <PropertyRef Name="IdFilmu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FilmyDoGatunki">
+    <End Role="Filmy" Type="Self.Filmy" Multiplicity="*" />
+    <End Role="Gatunki" Type="Self.Gatunki" Multiplicity="*" />
+  </Association>
+  <Association Name="FilmyDoObsada">
+    <End Role="Filmy" Type="Self.Filmy" Multiplicity="*" />
+    <End Role="Obsada" Type="Self.Obsada" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="FilmyEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Filmy" EntityType="Self.Filmy" />
+    <EntitySet Name="FilmyDoKompozytorzy" EntityType="Self.FilmyDoKompozytorzy" />
+    <EntitySet Name="FilmyDoRezyserzy" EntityType="Self.FilmyDoRezyserzy" />
+    <EntitySet Name="Gatunki" EntityType="Self.Gatunki" />
+    <EntitySet Name="Kompozytorzy" EntityType="Self.Kompozytorzy" />
+    <EntitySet Name="Nagrody" EntityType="Self.Nagrody" />
+    <EntitySet Name="Obsada" EntityType="Self.Obsada" />
+    <EntitySet Name="Rezyserzy" EntityType="Self.Rezyserzy" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" />
+    <AssociationSet Name="FK_Filmy_Uzytkownik" Association="Self.FK_Filmy_Uzytkownik">
+      <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+      <End Role="Filmy" EntitySet="Filmy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FilmyDoKompozytorzy_Filmy" Association="Self.FK_FilmyDoKompozytorzy_Filmy">
+      <End Role="Filmy" EntitySet="Filmy" />
+      <End Role="FilmyDoKompozytorzy" EntitySet="FilmyDoKompozytorzy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FilmyDoRezyserzy_Filmy" Association="Self.FK_FilmyDoRezyserzy_Filmy">
+      <End Role="Filmy" EntitySet="Filmy" />
+      <End Role="FilmyDoRezyserzy" EntitySet="FilmyDoRezyserzy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Nagrody_Filmy" Association="Self.FK_Nagrody_Filmy">
+      <End Role="Filmy" EntitySet="Filmy" />
+      <End Role="Nagrody" EntitySet="Nagrody" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FilmyDoKompozytorzy_Kompozytorzy" Association="Self.FK_FilmyDoKompozytorzy_Kompozytorzy">
+      <End Role="Kompozytorzy" EntitySet="Kompozytorzy" />
+      <End Role="FilmyDoKompozytorzy" EntitySet="FilmyDoKompozytorzy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FilmyDoRezyserzy_Rezyserzy" Association="Self.FK_FilmyDoRezyserzy_Rezyserzy">
+      <End Role="Rezyserzy" EntitySet="Rezyserzy" />
+      <End Role="FilmyDoRezyserzy" EntitySet="FilmyDoRezyserzy" />
+    </AssociationSet>
+    <AssociationSet Name="FilmyDoGatunki" Association="Self.FilmyDoGatunki">
+      <End Role="Filmy" EntitySet="Filmy" />
+      <End Role="Gatunki" EntitySet="Gatunki" />
+    </AssociationSet>
+    <AssociationSet Name="FilmyDoObsada" Association="Self.FilmyDoObsada">
+      <End Role="Filmy" EntitySet="Filmy" />
+      <End Role="Obsada" EntitySet="Obsada" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FilmyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Filmy">
+    <Key>
+      <PropertyRef Name="IdFilmu" />
+    </Key>
+    <Property Name="IdFilmu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Tytuł" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RokWydania" Type="Int32" />
+    <Property Name="CzasTrwania" Type="Int32" />
+    <Property Name="Ograniczenia" Type="Int32" />
+    <Property Name="OcenaIMDB" Type="Double" />
+    <Property Name="Obejrzany" Type="Boolean" />
+    <Property Name="Fabuła" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IdUzytkownika" Type="Int32" Nullable="false" />
+    <Property Name="LinkDoObrazka" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Filmy_Uzytkownik" FromRole="Filmy" ToRole="Uzytkownik" />
+  </EntityType>
+  <EntityType Name="Uzytkownik">
+    <Key>
+      <PropertyRef Name="IdUzytkownika" />
+    </Key>
+    <Property Name="IdUzytkownika" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nickname" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+    <Property Name="Login" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+    <Property Name="Haslo" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Filmy" Relationship="Self.FK_Filmy_Uzytkownik" FromRole="Uzytkownik" ToRole="Filmy" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="name" />
+      <PropertyRef Name="principal_id" />
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Filmy_Uzytkownik">
+    <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+    <End Role="Filmy" Type="Self.Filmy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Uzytkownik">
+        <PropertyRef Name="IdUzytkownika" />
+      </Principal>
+      <Dependent Role="Filmy">
+        <PropertyRef Name="IdUzytkownika" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FilmyEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Filmy" EntityType="Self.Filmy" />
+    <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <AssociationSet Name="FK_Filmy_Uzytkownik" Association="Self.FK_Filmy_Uzytkownik">
+      <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+      <End Role="Filmy" EntitySet="Filmy" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

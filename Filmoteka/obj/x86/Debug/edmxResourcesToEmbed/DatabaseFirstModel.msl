@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FilmyModelStoreContainer" CdmEntityContainer="FilmyEntities">
+    <EntitySetMapping Name="Filmy">
+      <EntityTypeMapping TypeName="FilmyModel.Filmy">
+        <MappingFragment StoreEntitySet="Filmy">
+          <ScalarProperty Name="IdFilmu" ColumnName="IdFilmu" />
+          <ScalarProperty Name="Tytuł" ColumnName="Tytuł" />
+          <ScalarProperty Name="RokWydania" ColumnName="RokWydania" />
+          <ScalarProperty Name="CzasTrwania" ColumnName="CzasTrwania" />
+          <ScalarProperty Name="Ograniczenia" ColumnName="Ograniczenia" />
+          <ScalarProperty Name="OcenaIMDB" ColumnName="OcenaIMDB" />
+          <ScalarProperty Name="Obejrzany" ColumnName="Obejrzany" />
+          <ScalarProperty Name="Fabuła" ColumnName="Fabuła" />
+          <ScalarProperty Name="IdUzytkownika" ColumnName="IdUzytkownika" />
+          <ScalarProperty Name="LinkDoObrazka" ColumnName="LinkDoObrazka" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Uzytkownik">
+      <EntityTypeMapping TypeName="FilmyModel.Uzytkownik">
+        <MappingFragment StoreEntitySet="Uzytkownik">
+          <ScalarProperty Name="IdUzytkownika" ColumnName="IdUzytkownika" />
+          <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Haslo" ColumnName="Haslo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="FilmyModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FilmyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Filmy">
+    <Key>
+      <PropertyRef Name="IdFilmu" />
+    </Key>
+    <Property Name="IdFilmu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Tytuł" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="RokWydania" Type="int" />
+    <Property Name="CzasTrwania" Type="int" />
+    <Property Name="Ograniczenia" Type="int" />
+    <Property Name="OcenaIMDB" Type="float" />
+    <Property Name="Obejrzany" Type="bit" />
+    <Property Name="Fabuła" Type="nvarchar" MaxLength="500" />
+    <Property Name="IdUzytkownika" Type="int" Nullable="false" />
+    <Property Name="LinkDoObrazka" Type="nvarchar" MaxLength="1000" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Filmy.dbo.sysdiagrams' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="name" />
+      <PropertyRef Name="principal_id" />
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Uzytkownik">
+    <Key>
+      <PropertyRef Name="IdUzytkownika" />
+    </Key>
+    <Property Name="IdUzytkownika" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nickname" Type="nvarchar" MaxLength="32" />
+    <Property Name="Login" Type="nvarchar" MaxLength="32" />
+    <Property Name="Haslo" Type="nvarchar" MaxLength="32" />
+  </EntityType>
+  <Association Name="FK_Filmy_Uzytkownik">
+    <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+    <End Role="Filmy" Type="Self.Filmy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Uzytkownik">
+        <PropertyRef Name="IdUzytkownika" />
+      </Principal>
+      <Dependent Role="Filmy">
+        <PropertyRef Name="IdUzytkownika" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FilmyModelStoreContainer">
+    <EntitySet Name="Filmy" EntityType="Self.Filmy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [sysdiagrams].[name] AS [name], 
+    [sysdiagrams].[principal_id] AS [principal_id], 
+    [sysdiagrams].[diagram_id] AS [diagram_id], 
+    [sysdiagrams].[version] AS [version], 
+    [sysdiagrams].[definition] AS [definition]
+    FROM [dbo].[sysdiagrams] AS [sysdiagrams]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Filmy_Uzytkownik" Association="Self.FK_Filmy_Uzytkownik">
+      <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+      <End Role="Filmy" EntitySet="Filmy" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
